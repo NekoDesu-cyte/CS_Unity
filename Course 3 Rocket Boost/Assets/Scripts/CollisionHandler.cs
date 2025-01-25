@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
@@ -10,8 +11,10 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] AudioClip CrashSFX;
     [SerializeField] ParticleSystem SuccessParticles;
     [SerializeField] ParticleSystem CrashParticles;
+
     
     bool isControllAble = true;
+    bool isCollideAble = true;
 
     AudioSource audioSource;
 
@@ -19,9 +22,26 @@ public class CollisionHandler : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
     }
+
+    private void Update() 
+    {
+        RespondToDebugKeys();
+    }
+    void RespondToDebugKeys()
+    {
+        if (Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            NextLevel();
+        }
+        else if (Keyboard.current.cKey.wasPressedThisFrame)
+        {
+            isCollideAble = !isCollideAble;
+            Debug.Log("C is pressed");
+        }
+    }
     private void OnCollisionEnter(Collision other) 
     {
-        if (!isControllAble) {return;}
+        if (!isControllAble || !isCollideAble) {return;}
 
         switch (other.gameObject.tag)
         {
@@ -80,6 +100,8 @@ public class CollisionHandler : MonoBehaviour
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentScene);
     }
+
+
 
     
 }
