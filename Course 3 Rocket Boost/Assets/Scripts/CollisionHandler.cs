@@ -1,10 +1,28 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+
+    [SerializeField] float levelDelay = 0;
+    [SerializeField] AudioClip SuccessSFX;
+    [SerializeField] AudioClip CrashSFX;
+    [SerializeField] ParticleSystem SuccessParticles;
+    [SerializeField] ParticleSystem CrashParticles;
+    
+    bool isControllAble = true;
+
+    AudioSource audioSource;
+
+    private void Start() 
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     private void OnCollisionEnter(Collision other) 
     {
+        if (!isControllAble) {return;}
+
         switch (other.gameObject.tag)
         {
             case "Friendly":
@@ -12,7 +30,7 @@ public class CollisionHandler : MonoBehaviour
                 break;
 
             case "Finish":
-                NextLevel();
+                StartSucceedSeqeunce();
                 break;
 
             case "Fuel":
@@ -20,9 +38,30 @@ public class CollisionHandler : MonoBehaviour
                 break;
 
             default:
-                ReloadLevel();
+                StartCrashSequence();
                 break;
         }
+    }
+
+    private void StartSucceedSeqeunce()
+    {
+        isControllAble = false;
+        audioSource.Stop();
+        audioSource.PlayOneShot(SuccessSFX);
+        SuccessParticles.Play();
+        GetComponent<Movement>().enabled = false;
+        Invoke("NextLevel", levelDelay);
+    }
+
+    private void StartCrashSequence()
+    {
+        // add SFX
+        isControllAble = false;
+        audioSource.Stop();
+        audioSource.PlayOneShot(CrashSFX);
+        CrashParticles.Play();
+        GetComponent<Movement>().enabled = false;
+        Invoke("ReloadLevel", levelDelay);
     }
 
     private void NextLevel()
