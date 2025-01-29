@@ -43,13 +43,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
         float clampedYPos = Math.Clamp(rawYPos, -YClampRange, YClampRange);
 
         transform.localPosition = new Vector3(clampedXPos, clampedYPos, 0f);
-
-        
-
     }
     void ProcessRotation()
     {
-        Quaternion targetRotation = Quaternion.Euler(-controlPitchFactor * movement.y, 0f, -controlRollFactor * movement.x);
+        float Roll = -controlRollFactor * movement.x;
+        float Pitch = -controlPitchFactor * movement.y;
+        Quaternion targetRotation = Quaternion.Euler(Pitch, 0f, Roll);
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 }
