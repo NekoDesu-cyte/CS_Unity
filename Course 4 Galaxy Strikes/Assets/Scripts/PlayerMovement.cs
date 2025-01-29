@@ -1,18 +1,20 @@
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] float controlSpeed = 10f;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        float xOffset = controlSpeed * Time.deltaTime;
+        transform.localPosition = new Vector3(transform.localPosition.x + xOffset, 0f, 0f);
     }
 
     public void OnMove(InputValue value) 
