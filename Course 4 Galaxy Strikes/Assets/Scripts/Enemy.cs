@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private void OnParticleCollision(GameObject other) {
+    [SerializeField] GameObject destroyedVFX;
+    private void OnParticleCollision(GameObject other) 
+    {
+        Instantiate(destroyedVFX, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 }
