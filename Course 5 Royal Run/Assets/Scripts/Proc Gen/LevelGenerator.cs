@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    [SerializeField] CameraControl cameraControl;
     [SerializeField] GameObject chunkPrefab;
     [SerializeField] int startingChunkAmmount = 12;
     [SerializeField] Transform chunkParent;
@@ -39,6 +40,8 @@ public class LevelGenerator : MonoBehaviour
         }
 
         Physics.gravity = new Vector3(Physics.gravity.x, Physics.gravity.y, Physics.gravity.z - speedAmount);
+
+        cameraControl.ChangeCameraFOV(speedAmount);
     }
     private void SpawnChunk()
     {
