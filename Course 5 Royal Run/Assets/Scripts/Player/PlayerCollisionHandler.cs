@@ -24,8 +24,8 @@ public class PlayerCollisionHandler : MonoBehaviour
     {
         if (cooldownTimer < collisionCooldown) return;
 
-        levelGenerator.ChangeChunkMoveSPeed(adjustChangeMoveSpeedAmmount);
+        levelGenerator.ChangeChunkMoveSpeed(adjustChangeMoveSpeedAmmount);
         animator.SetTrigger(hitString);
-        cooldownTimer = 0f;
+        cooldownTimer = 1f;
     }
 }

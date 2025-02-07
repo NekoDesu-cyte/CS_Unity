@@ -5,9 +5,10 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] CameraControl cameraControl;
+    [SerializeField] CameraController cameraControl;
     [SerializeField] Transform chunkParent;
     [SerializeField] GameObject chunkPrefab;
+    [SerializeField] ScoreManager scoreManager;
     [Header("Level Settings")]
     [SerializeField] int startingChunkAmmount = 12;
     [Header("Movement Speed etc")] 
@@ -26,7 +27,7 @@ public class LevelGenerator : MonoBehaviour
         SpawnStartingChunks();
     }
     private void Update() {
-        moveChunk();
+        MoveChunk();
     }
 
     private void SpawnStartingChunks()
@@ -36,7 +37,7 @@ public class LevelGenerator : MonoBehaviour
             SpawnChunk();
         }
     }
-    public void ChangeChunkMoveSPeed(float speedAmount)
+    public void ChangeChunkMoveSpeed(float speedAmount)
     {
         float newMoveSpeed = moveSpeed + speedAmount;
         newMoveSpeed = Mathf.Clamp(newMoveSpeed, minMoveSpeed, maxMoveSpeed);
@@ -61,9 +62,11 @@ public class LevelGenerator : MonoBehaviour
         float spawnPositionZ = CalculateSpawnPositionZ();
 
         Vector3 chunkSpawnPos = new Vector3(transform.position.x, transform.position.y, spawnPositionZ);
-        GameObject newChunk = Instantiate(chunkPrefab, chunkSpawnPos, Quaternion.identity, chunkParent);
+        GameObject newChunkGO = Instantiate(chunkPrefab, chunkSpawnPos, Quaternion.identity, chunkParent);
 
-        chunks.Add(newChunk);
+        chunks.Add(newChunkGO);
+        Chunk newChunk = newChunkGO.GetComponent<Chunk>();
+        newChunk.Init(this, scoreManager);
     }
 
     private float CalculateSpawnPositionZ()
@@ -81,7 +84,7 @@ public class LevelGenerator : MonoBehaviour
 
         return spawnPositionZ;
     }
-    void moveChunk()
+    void MoveChunk()
     {
         for (int i = 0; i < chunks.Count; i++)
         {
