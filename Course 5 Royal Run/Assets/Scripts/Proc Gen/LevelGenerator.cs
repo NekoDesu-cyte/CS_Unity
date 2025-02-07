@@ -1,16 +1,17 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] CameraController cameraControl;
+    [SerializeField] GameObject[] chunkPrefabs;
+    [SerializeField] GameObject checkPointChunkPrefab;
     [SerializeField] Transform chunkParent;
-    [SerializeField] GameObject chunkPrefab;
     [SerializeField] ScoreManager scoreManager;
     [Header("Level Settings")]
     [SerializeField] int startingChunkAmmount = 12;
+    [SerializeField] int checkPointChunkInterval = 8;
     [Header("Movement Speed etc")] 
     [Tooltip("Dont Change if you dont understand what is this, especially on Royal Run")]
     [SerializeField] float chunkLenght = 10f;
@@ -19,8 +20,9 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] float maxMoveSpeed = 20f;
     [SerializeField] float minGravityZ = -22f;
     [SerializeField] float maxGravityZ = -2f;
+
     List<GameObject> chunks = new List<GameObject>();
-   
+    int chunkSpawned = 0; 
 
     private void Start()
     {
@@ -62,11 +64,31 @@ public class LevelGenerator : MonoBehaviour
         float spawnPositionZ = CalculateSpawnPositionZ();
 
         Vector3 chunkSpawnPos = new Vector3(transform.position.x, transform.position.y, spawnPositionZ);
-        GameObject newChunkGO = Instantiate(chunkPrefab, chunkSpawnPos, Quaternion.identity, chunkParent);
+        GameObject chunkToSpawn = ChooseChunkToSpawn();
+
+        GameObject newChunkGO = Instantiate(chunkToSpawn, chunkSpawnPos, Quaternion.identity, chunkParent);
 
         chunks.Add(newChunkGO);
         Chunk newChunk = newChunkGO.GetComponent<Chunk>();
         newChunk.Init(this, scoreManager);
+
+        chunkSpawned++;
+    }
+
+    private GameObject ChooseChunkToSpawn()
+    {
+        GameObject chunkToSpawn;
+
+        if (chunkSpawned % checkPointChunkInterval == 0 && chunkSpawned != 0)
+        {
+            chunkToSpawn = checkPointChunkPrefab;
+        }
+        else
+        {
+            chunkToSpawn = chunkPrefabs[Random.Range(0, chunkPrefabs.Length)];
+        }
+
+        return chunkToSpawn;
     }
 
     private float CalculateSpawnPositionZ()
