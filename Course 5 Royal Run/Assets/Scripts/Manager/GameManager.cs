@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     float timeLeft;
     bool gameOver = false;
 
+    public bool GameOver => gameOver;
+ 
     void Start()
     {
         timeLeft = startTime;
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         DecreaseTime();
-    }
+    }   
 
     private void DecreaseTime()
     {
@@ -31,11 +33,11 @@ public class GameManager : MonoBehaviour
 
         if (timeLeft <= 0f)
         {
-            GameOver();
+            PlayerGameOver();
         }
     }
 
-    void GameOver()
+    void PlayerGameOver()
     { 
         gameOver = true;
         playerController.enabled = false;
