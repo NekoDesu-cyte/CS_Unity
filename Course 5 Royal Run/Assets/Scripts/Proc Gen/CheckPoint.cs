@@ -1,21 +1,23 @@
 using UnityEngine;
 
-public class CheckPoint : MonoBehaviour
+public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] float checkPointTimeExtension = 5f;
+    [SerializeField] float checkpointTimeExtension = 5f;
 
     GameManager gameManager;
 
     const string playerString = "Player";
+
     void Start()
     {
         gameManager = FindFirstObjectByType<GameManager>();
     }
+
     void OnTriggerEnter(Collider other) 
     {
-        if (other.CompareTag(playerString))
+        if (other.CompareTag(playerString)) 
         {
-            gameManager.IncreaseTime(checkPointTimeExtension);
-        }
+            gameManager.IncreaseTime(checkpointTimeExtension);
+        }    
     }
 }
