@@ -1,8 +1,10 @@
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
+    FirstPersonController player;
     [SerializeField] Transform target;
     NavMeshAgent agent; 
 
@@ -12,11 +14,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
     }
     void Start()
     {
-        agent.SetDestination(target.position);
+        player = FindFirstObjectByType<FirstPersonController>();
+        
     }
 
     void Update()
     {
+        agent.SetDestination(target.transform.position);
         
     }
 }
