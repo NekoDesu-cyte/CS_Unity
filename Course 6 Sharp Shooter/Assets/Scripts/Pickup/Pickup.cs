@@ -4,7 +4,7 @@ public abstract class Pickup : MonoBehaviour
 {
     [SerializeField] float rotationSpeed = 100f;
 
-    const string PLAYER_STRING = "PLayer";
+    const string PLAYER_STRING = "Player";
 
     void Update()
     {
@@ -12,7 +12,7 @@ public abstract class Pickup : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PLAYER_STRING"))
+        if (other.CompareTag(PLAYER_STRING))
         {
             ActiveWeapon activeWeapon = other.GetComponentInChildren<ActiveWeapon>();
             OnPickup(activeWeapon);
