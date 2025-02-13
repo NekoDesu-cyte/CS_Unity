@@ -28,6 +28,11 @@ public class ActiveWeapon : MonoBehaviour
         HandleShoot();
     }
 
+    public void SwitchWeapon(WeaponSO weaponSO)
+    {
+        Debug.Log("Player Pickup " + weaponSO.name);
+    }
+
     void HandleShoot()
     {
         if (!starterAssetsInputs.shoot) return;
