@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2c91f7453fcba4aa55e360db2aac27, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
+  weaponPrefab: {fileID: 3961502527142560862, guid: 6de8ca2d71994604081cea85ae06d610, type: 3}
   Damage: 2
   FireRate: 0.5
   HitVFXPrefab: {fileID: 2758300422141922323, guid: 38c6c5a9326fae846952d4528835b66d, type: 3}
