@@ -17,11 +17,11 @@ public class Robot : MonoBehaviour
     void Start()
     {
         player = FindFirstObjectByType<FirstPersonController>();
-        
     }
 
     void Update()
     {
+        if (!player) return;
         agent.SetDestination(target.transform.position);
         
     }
