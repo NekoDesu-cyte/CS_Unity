@@ -5,7 +5,6 @@ using UnityEngine.AI;
 public class Robot : MonoBehaviour
 {
     FirstPersonController player;
-    [SerializeField] Transform target;
 
     const string PLAYER_STRING = "Player";
     NavMeshAgent agent; 
@@ -22,7 +21,7 @@ public class Robot : MonoBehaviour
     void Update()
     {
         if (!player) return;
-        agent.SetDestination(target.transform.position);
+        agent.SetDestination(player.transform.position);
         
     }
      void OnTriggerEnter(Collider other) 
